@@ -5,7 +5,6 @@ if (strlen($_SESSION['adminid']==0)) {
   } else{
     
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>

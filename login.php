@@ -2,14 +2,13 @@
 include_once('includes/config.php');
 // Code for login 
 if(isset($_POST['login']))
-{
+{ 
 $password=$_POST['password'];
 $encryptedPassword=md5($_POST['password']);
 $useremail=$_POST['uemail'];
 
 $ret= mysqli_query($con,"SELECT id,fname FROM users WHERE email='$useremail' and password='$encryptedPassword'");
 $num=mysqli_fetch_array($ret);
-
 if($num>0)
 {
 

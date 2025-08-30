@@ -7,7 +7,6 @@ if (strlen($_SESSION['adminid']==0)) {
 if(isset($_GET['id']))
 {
 $adminid=$_GET['id'];
-
 $validateDeletingUser=mysqli_query($con,"select * from users where id='$adminid'");
 $DoesUserExist=mysqli_num_rows($validateDeletingUser);
 if($DoesUserExist){

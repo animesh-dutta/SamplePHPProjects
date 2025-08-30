@@ -3,7 +3,6 @@ include_once('../includes/config.php');
 if (strlen($_SESSION['adminid']==0)) {
   header('location:logout.php');
   } else{
- // for  password change   
 if(isset($_POST['update']))
 {
 $oldpassword=md5($_POST['currentpassword']); 

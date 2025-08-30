@@ -17,9 +17,7 @@ if($msg)
     echo "<script>alert('Profile updated successfully');</script>";
        echo "<script type='text/javascript'> document.location = 'manage-users.php'; </script>";
 }
-}
-
-    
+}  
 ?>
 <!DOCTYPE html>
 <html lang="en">
