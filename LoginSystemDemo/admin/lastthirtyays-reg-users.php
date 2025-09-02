@@ -3,6 +3,7 @@ include_once('../includes/config.php');
 if (strlen($_SESSION['adminid']==0)) {
   header('location:logout.php');
   } else{
+    
 // for deleting user
 if(isset($_GET['id']))
 {
@@ -13,6 +14,7 @@ if($msg)
 echo "<script>alert('Data deleted');</script>";
 }
 }
+
    ?>
 <!DOCTYPE html>
 <html lang="en">

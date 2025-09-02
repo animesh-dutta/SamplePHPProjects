@@ -13,7 +13,6 @@ if($msg)
 echo "<script>alert('Data deleted');</script>";
 }
 }
-
    ?>
 <!DOCTYPE html>
 <html lang="en">

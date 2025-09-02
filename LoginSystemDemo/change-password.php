@@ -4,22 +4,27 @@ if (strlen($_SESSION['id']==0)) {
   header('location:logout.php');
   } else{
 //Code for Updation 
-
+ // for  password change  
+  
 if(isset($_POST['update']))
 {
-    $fname=$_POST['fname'];
-    $lname=$_POST['lname'];
-    $contact=$_POST['contact'];
-$userid=$_SESSION['id'];
-    $msg=mysqli_query($con,"update users set fname='$fname',lname='$lname',contactno='$contact' where id='$userid'");
-
-if($msg)
+$oldpassword=$_POST['currentpassword']; 
+$newpassword=$_POST['newpassword'];
+$sql=mysqli_query($con,"SELECT password FROM users where password='$oldpassword'");
+$num=mysqli_fetch_array($sql);
+if($num>0)
 {
-    echo "<script>alert('Profile updated successfully');</script>";
-       echo "<script type='text/javascript'> document.location = 'profile.php'; </script>";
+$userid=$_SESSION['id'];
+$ret=mysqli_query($con,"update users set password='$newpassword' where id='$userid'");
+echo "<script>alert('Password Changed Successfully !!');</script>";
+echo "<script type='text/javascript'> document.location = 'change-password.php'; </script>";
+}
+else
+{
+echo "<script>alert('Old Password not match !!');</script>";
+echo "<script type='text/javascript'> document.location = 'change-password.php'; </script>";
 }
 }
-
 
     
 ?>
@@ -31,10 +36,23 @@ if($msg)
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Edit Profile | Registration and Login System</title>
+        <title>Change password | Registration and Login System</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+<script language="javascript" type="text/javascript">
+function valid()
+{
+if(document.changepassword.newpassword.value!= document.changepassword.confirmpassword.value)
+{
+alert("Password and Confirm Password Field do not match  !!");
+document.changepassword.confirmpassword.focus();
+return false;
+}
+return true;
+}
+</script>
+
     </head>
     <body class="sb-nav-fixed">
       <?php include_once('includes/navbar.php');?>
@@ -44,40 +62,27 @@ if($msg)
                 <main>
                     <div class="container-fluid px-4">
                         
-<?php 
-$userid=$_SESSION['id'];
-$query=mysqli_query($con,"select * from users where id='$userid'");
-while($result=mysqli_fetch_array($query))
-{?>
-                        <h1 class="mt-4"><?php echo $result['fname'];?>'s Profile</h1>
+
+                        <h1 class="mt-4">Change Password</h1>
                         <div class="card mb-4">
-                     <form method="post">
+                     <form method="post" name="changepassword" onSubmit="return valid();">
                             <div class="card-body">
                                 <table class="table table-bordered">
                                    <tr>
-                                    <th>First Name</th>
-                                       <td><input class="form-control" id="fname" name="fname" type="text" value="<?php echo $result['fname'];?>" required /></td>
+                                    <th>Current Password</th>
+                                       <td><input class="form-control" id="currentpassword" name="currentpassword" type="password" value="" required /></td>
                                    </tr>
                                    <tr>
-                                       <th>Last Name</th>
-                                       <td><input class="form-control" id="lname" name="lname" type="text" value="<?php echo $result['lname'];?>"  required /></td>
+                                       <th>New Password</th>
+                                       <td><input class="form-control" id="newpassword" name="newpassword" type="password" value=""  required /></td>
                                    </tr>
                                          <tr>
-                                       <th>Contact No.</th>
-                                       <td colspan="3"><input class="form-control" id="contact" name="contact" type="text" value="<?php echo $result['contactno'];?>"  pattern="[0-9]{10}" title="10 numeric characters only"  maxlength="10" required /></td>
+                                       <th>Confirm Password</th>
+                                       <td colspan="3"><input class="form-control" id="confirmpassword" name="confirmpassword" type="password"    required /></td>
                                    </tr>
+                  
                                    <tr>
-                                       <th>Email</th>
-                                       <td colspan="3"><?php echo $result['email'];?></td>
-                                   </tr>
-                               
-                                     
-                                        <tr>
-                                       <th>Reg. Date</th>
-                                       <td colspan="3"><?php echo $result['posting_date'];?></td>
-                                   </tr>
-                                   <tr>
-                                       <td colspan="4" style="text-align:center ;"><button type="submit" class="btn btn-primary btn-block" name="update">Update</button></td>
+                                       <td colspan="4" style="text-align:center ;"><button type="submit" class="btn btn-primary btn-block" name="update">Change</button></td>
 
                                    </tr>
                                     </tbody>
@@ -85,7 +90,7 @@ while($result=mysqli_fetch_array($query))
                             </div>
                             </form>
                         </div>
-<?php } ?>
+
 
                     </div>
                 </main>
