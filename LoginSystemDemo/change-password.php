@@ -10,7 +10,8 @@ if(isset($_POST['update']))
 {
 $oldpassword=$_POST['currentpassword']; 
 $newpassword=$_POST['newpassword'];
-$sql=mysqli_query($con,"SELECT password FROM users where password='$oldpassword'");
+$EncryptedOldpassword=md5($oldpassword);
+$sql=mysqli_query($con,"SELECT password FROM users where password='$EncryptedOldpassword'");
 $num=mysqli_fetch_array($sql);
 if($num>0)
 {
