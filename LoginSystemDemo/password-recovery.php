@@ -6,6 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 
 $mail = new PHPMailer;
+
 if(isset($_POST['send'])){
 
 $femail=$_POST['femail'];
@@ -14,11 +15,14 @@ $row1=mysqli_query($con,"select email,password,fname from users where email='$fe
 $row2=mysqli_fetch_array($row1);
 if($row2>0)
 {
+
 $toemail = $row2['email'];
 $fname = $row2['fname'];
 $subject = "Information about your password";
-$password=$row2['password'];
-$message = "Your password is ".$password;
+//$password=$row2['password'];
+$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+$NewPassword=substr(str_shuffle($chars),0,10);
+$message = "Your password is ".$NewPassword;
 $mail->isSMTP();                            // Set mailer to use SMTP
 $mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
 $mail->SMTPAuth = true;                     // Enable SMTP authentication
@@ -38,7 +42,9 @@ if(!$mail->send()) {
 echo  "<script>alert('Message could not be sent');</script>";
 echo 'Mailer Error: ' . $mail->ErrorInfo;
 } else {
-   echo  "<script>alert('Your Password has been sent Successfully');</script>";
+    $encryptedPassword=md5($NewPassword);
+    $msg=mysqli_query($con,"update users set password='$encryptedPassword' where email='$toemail'");
+   echo  "<script>alert('Your new Password has been sent successfully');</script>";
 }
 
 }
@@ -47,12 +53,6 @@ else
 echo "<script>alert('Email not register with us');</script>";   
 }
 }
-
-
-
-
-
-
 ?><!DOCTYPE html>
 <html lang="en">
     <head>
