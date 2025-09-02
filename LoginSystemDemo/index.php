@@ -53,7 +53,7 @@
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Admin Panel</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="admin.php">Login Here</a>
+                                        <a class="small text-white stretched-link" href="admin/index.php">Login Here</a>
                           
                                     </div>
                                 </div>

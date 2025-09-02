@@ -1,11 +1,6 @@
-<!--
-Author:Advaitesha
-Approver:Animesh
--->
-
 <?php session_start(); 
 include_once('../includes/config.php');
-// Code for login 
+//echo md5("password");
 if(isset($_POST['login']))
 {
   $adminusername=$_POST['username'];
